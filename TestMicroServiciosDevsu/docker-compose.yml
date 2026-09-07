@@ -1,0 +1,57 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: postgres-banca
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin
+    ports:
+      - "5432:5432"          
+    volumes:
+      - postgres_data:/var/lib/postgresql/data                # persiste los datos entre reinicios del contenedor
+      - ./init-db.sh:/docker-entrypoint-initdb.d/init-db.sh    # crea las tablas de los servicios
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  clientservice:
+    build:
+      context: ./UserService
+      dockerfile: Dockerfile
+    container_name: userservice
+    depends_on:
+      postgres:
+        condition: service_healthy   # espera a que Postgres esté LISTO, no solo "iniciado"
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: http://+:8080
+      # Sobreescribe el appsettings.json: "postgres" es el nombre del servicio de arriba,
+      # no "localhost" — así es como se resuelve el networking interno de Docker.
+      ConnectionStrings__DefaultConnection: "Host=postgres;Port=5432;Database=person_db;Username=postgres;Password=admin"
+    ports:
+      - "5062:8080"         
+
+  accountservice:
+    build:
+      context: ./AccountService
+      dockerfile: Dockerfile
+    container_name: accountservice
+    depends_on:
+      postgres:
+        condition: service_healthy
+      clientservice:
+        condition: service_started
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: http://+:8080
+      ConnectionStrings__DefaultConnection: "Host=postgres;Port=5432;Database=account_db;Username=postgres;Password=admin"
+      # Clave: le dice a AccountService que ClientService vive en el contenedor
+      # llamado "clientservice", puerto 8080 (el puerto INTERNO, no el 5001 externo).
+      Services__ClientService: "http://clientservice:8080"
+    ports:
+      - "5014:8080"
+
+volumes:
+  postgres_data:
