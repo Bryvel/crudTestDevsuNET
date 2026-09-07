@@ -199,7 +199,7 @@ accountServiceUrl = http://localhost:5014
 
 Los IDs generados por las operaciones de creación pueden almacenarse automáticamente como variables de colección.
 
-## 💰 Movimientos
+## Movimientos
 
 El endpoint de movimientos utiliza el signo del monto para determinar el tipo:
 
@@ -223,7 +223,7 @@ Aumenta el saldo de la cuenta.
 
 Disminuye el saldo de la cuenta.
 
-## 📊 Reportes
+## Reportes
 
 Ejemplo:
 
@@ -289,7 +289,7 @@ El proyecto busca aplicar:
 └── README.md
 ```
 
-## ▶️ Flujo completo
+##  Flujo completo
 
 ```bash
 # 1. Clonar repositorio
