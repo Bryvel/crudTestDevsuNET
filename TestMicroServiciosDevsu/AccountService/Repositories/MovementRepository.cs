@@ -1,6 +1,6 @@
 ﻿using AccountService.Data;
 using AccountService.Models;
-using System.Data.Entity;
+using Microsoft.EntityFrameworkCore;
 
 namespace AccountService.Repositories
 {
@@ -11,7 +11,7 @@ namespace AccountService.Repositories
             public async Task<List<Movement>> GetByAccountIdAsync(Guid accountId)
     {
              
-            return await _dbSet.Where(c => c.Id == accountId).ToListAsync();
+            return await _dbSet.Where(c => c.AccountId == accountId).ToListAsync();
     }
  
 

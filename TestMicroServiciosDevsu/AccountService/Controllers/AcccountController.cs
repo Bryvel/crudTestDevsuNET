@@ -67,7 +67,7 @@ namespace AccountService.Controllers
                 var movement = new Movement
                 {
                     AccountId = account.Id,
-                    Type = MovementType.Deposito,
+                    Type = "Deposito",
                     Amount = dto.InitialBalance,
                     Balance= account.Balance,
                 };
@@ -110,17 +110,17 @@ namespace AccountService.Controllers
         }
 
         [HttpPost("{id:Guid}/movimientos")]
-        public async Task<IActionResult> Retirar(Guid id, WithdrawalDto dto)
+        public async Task<IActionResult> Retirar(Guid id, MovementDto dto)
         {
-            if (dto.Amount <= 0)
-                return BadRequest(new { message = "El monto del movimiento debe ser mayor a 0" });
 
             var account = await _unitOfWork.Accounts.GetByIdAsync(id);
+            string typeMovement = "Deposito";
             if (account is null)
                 return NotFound(new { message = $"Cuenta {id} no encontrada" });
-
+            if (dto.Amount < 0)
+                typeMovement = "Retiro";
             if (account.Balance+dto.Amount<0)
-                return BadRequest(new { message = $"Fondos insuficientes. Saldo disponible: {account.Balance}" });
+                return BadRequest(new { message = $"Saldo no disponible"});
 
             account.Balance += dto.Amount;
             _unitOfWork.Accounts.Update(account);
@@ -128,7 +128,7 @@ namespace AccountService.Controllers
             var movement = new Movement
             {
                 AccountId = account.Id,
-                Type = MovementType.Retiro,
+                Type = typeMovement,
                 Amount = dto.Amount,
                 Balance = account.Balance,
             };

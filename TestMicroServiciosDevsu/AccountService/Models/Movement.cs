@@ -2,11 +2,6 @@
 
 namespace AccountService.Models;
 
-    public enum MovementType
-{
-    Deposito = 1,
-    Retiro = 2
-}
 
     public class Movement
     {
@@ -14,15 +9,14 @@ namespace AccountService.Models;
         public Guid Id { get; set; }
         [Required]
        public DateTime Date { get; set; } = DateTime.UtcNow;
-        public MovementType Type { get; set;}
-        [Required]
+        public string Type { get; set;} = string.Empty;
+    [Required]
         public decimal Amount { get; set; }
         public decimal Balance { get; set; }
         public Account? Account { get; set; }
         public Guid AccountId { get; set; }
 
-    public record WithdrawalDto(decimal Amount, string? Description);
-    public record DepositDto(decimal Amount, string? Description);
+    public record MovementDto(decimal Amount);
 
     public record MovementResponseDto(
             Guid Id,
@@ -35,7 +29,7 @@ namespace AccountService.Models;
         public static MovementResponseDto FromEntity(Movement movement) => new(
             movement.Id,
             movement.AccountId,
-            movement.Type.ToString(),
+            movement.Type,
             movement.Amount,
             movement.Balance
         );
