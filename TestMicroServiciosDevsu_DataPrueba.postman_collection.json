@@ -1,0 +1,897 @@
+{
+  "info": {
+    "_postman_id": "14c22aa7-3917-4fc9-9ac1-353a6e7c273d",
+    "name": "TestMicroServiciosDevsu - Data de Prueba",
+    "description": "Colección con datos ficticios para poblar UserService y AccountService. Ejecutar en orden.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "userServiceUrl",
+      "value": "http://localhost:5062",
+      "type": "string"
+    },
+    {
+      "key": "accountServiceUrl",
+      "value": "http://localhost:5014",
+      "type": "string"
+    },
+    {
+      "key": "clientId1",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "clientId2",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "clientId3",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "clientId4",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "clientId5",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "accountId1",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "accountId2",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "accountId3",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "accountId4",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "accountId5",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Crear cliente 1",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "if (pm.response.code === 201) {",
+              "  const body = pm.response.json();",
+              "  pm.collectionVariables.set('clientId1', body.id);",
+              "}"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Carlos Mendoza\",\n  \"gender\": \"M\",\n  \"age\": 35,\n  \"ci\": \"0102030405\",\n  \"addres\": \"Av. Amazonas N24-80, Quito\",\n  \"phone\": \"0987654321\",\n  \"password\": \"CarlosTest123!\",\n  \"state\": true\n}"
+        },
+        "url": {
+          "raw": "{{userServiceUrl}}/api/clientes",
+          "host": [
+            "{{userServiceUrl}}"
+          ],
+          "path": [
+            "api",
+            "clientes"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Crear cuenta 1",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "if (pm.response.code === 201) {",
+              "  const body = pm.response.json();",
+              "  pm.collectionVariables.set('accountId1', body.id);",
+              "}"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"clientId\": \"{{clientId1}}\",\n  \"accountType\": \"Ahorros\",\n  \"accountNumber\": \"2000000001\",\n  \"initialBalance\": 1000.0,\n  \"state\": true\n}"
+        },
+        "url": {
+          "raw": "{{accountServiceUrl}}/api/cuentas",
+          "host": [
+            "{{accountServiceUrl}}",
+            ""
+          ],
+          "path": [
+            "api",
+            "cuentas"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Movimiento 1.1 (Depósito)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"amount\": 250\n}"
+        },
+        "url": {
+          "raw": "{{accountServiceUrl}}/api/cuentas/{{accountId1}}/movimientos",
+          "host": [
+            "{{accountServiceUrl}}"
+          ],
+          "path": [
+            "api",
+            "cuentas",
+            "{{accountId1}}",
+            "movimientos"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Movimiento 1.2 (Retiro)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"amount\": -100\n}"
+        },
+        "url": {
+          "raw": "{{accountServiceUrl}}/api/cuentas/{{accountId1}}/movimientos",
+          "host": [
+            "{{accountServiceUrl}}"
+          ],
+          "path": [
+            "api",
+            "cuentas",
+            "{{accountId1}}",
+            "movimientos"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Movimiento 1.3 (Depósito)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"amount\": 75\n}"
+        },
+        "url": {
+          "raw": "{{accountServiceUrl}}/api/cuentas/{{accountId1}}/movimientos",
+          "host": [
+            "{{accountServiceUrl}}"
+          ],
+          "path": [
+            "api",
+            "cuentas",
+            "{{accountId1}}",
+            "movimientos"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Crear cliente 2",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "if (pm.response.code === 201) {",
+              "  const body = pm.response.json();",
+              "  pm.collectionVariables.set('clientId2', body.id);",
+              "}"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Maria Gonzalez\",\n  \"gender\": \"F\",\n  \"age\": 29,\n  \"ci\": \"1102030406\",\n  \"addres\": \"Av. Republica E7-15, Quito\",\n  \"phone\": \"0991234567\",\n  \"password\": \"MariaTest123!\",\n  \"state\": true\n}"
+        },
+        "url": {
+          "raw": "{{userServiceUrl}}/api/clientes",
+          "host": [
+            "{{userServiceUrl}}"
+          ],
+          "path": [
+            "api",
+            "clientes"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Crear cuenta 2",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "if (pm.response.code === 201) {",
+              "  const body = pm.response.json();",
+              "  pm.collectionVariables.set('accountId2', body.id);",
+              "}"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"clientId\": \"{{clientId2}}\",\n  \"accountType\": \"Corriente\",\n  \"accountNumber\": \"2000000002\",\n  \"initialBalance\": 2500.0,\n  \"state\": true\n}"
+        },
+        "url": {
+          "raw": "{{accountServiceUrl}}/api/cuentas",
+          "host": [
+            "{{accountServiceUrl}}",
+            ""
+          ],
+          "path": [
+            "api",
+            "cuentas"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Movimiento 2.1 (Depósito)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"amount\": 500\n}"
+        },
+        "url": {
+          "raw": "{{accountServiceUrl}}/api/cuentas/{{accountId2}}/movimientos",
+          "host": [
+            "{{accountServiceUrl}}"
+          ],
+          "path": [
+            "api",
+            "cuentas",
+            "{{accountId2}}",
+            "movimientos"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Movimiento 2.2 (Retiro)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"amount\": -250\n}"
+        },
+        "url": {
+          "raw": "{{accountServiceUrl}}/api/cuentas/{{accountId2}}/movimientos",
+          "host": [
+            "{{accountServiceUrl}}"
+          ],
+          "path": [
+            "api",
+            "cuentas",
+            "{{accountId2}}",
+            "movimientos"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Movimiento 2.3 (Retiro)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"amount\": -50\n}"
+        },
+        "url": {
+          "raw": "{{accountServiceUrl}}/api/cuentas/{{accountId2}}/movimientos",
+          "host": [
+            "{{accountServiceUrl}}"
+          ],
+          "path": [
+            "api",
+            "cuentas",
+            "{{accountId2}}",
+            "movimientos"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Crear cliente 3",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "if (pm.response.code === 201) {",
+              "  const body = pm.response.json();",
+              "  pm.collectionVariables.set('clientId3', body.id);",
+              "}"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Pedro Sanchez\",\n  \"gender\": \"M\",\n  \"age\": 42,\n  \"ci\": \"1703040507\",\n  \"addres\": \"Av. 10 de Agosto N45-20, Quito\",\n  \"phone\": \"0982345678\",\n  \"password\": \"PedroTest123!\",\n  \"state\": true\n}"
+        },
+        "url": {
+          "raw": "{{userServiceUrl}}/api/clientes",
+          "host": [
+            "{{userServiceUrl}}"
+          ],
+          "path": [
+            "api",
+            "clientes"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Crear cuenta 3",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "if (pm.response.code === 201) {",
+              "  const body = pm.response.json();",
+              "  pm.collectionVariables.set('accountId3', body.id);",
+              "}"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"clientId\": \"{{clientId3}}\",\n  \"accountType\": \"Ahorros\",\n  \"accountNumber\": \"2000000003\",\n  \"initialBalance\": 750.0,\n  \"state\": true\n}"
+        },
+        "url": {
+          "raw": "{{accountServiceUrl}}/api/cuentas",
+          "host": [
+            "{{accountServiceUrl}}",
+            ""
+          ],
+          "path": [
+            "api",
+            "cuentas"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Movimiento 3.1 (Depósito)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"amount\": 300\n}"
+        },
+        "url": {
+          "raw": "{{accountServiceUrl}}/api/cuentas/{{accountId3}}/movimientos",
+          "host": [
+            "{{accountServiceUrl}}"
+          ],
+          "path": [
+            "api",
+            "cuentas",
+            "{{accountId3}}",
+            "movimientos"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Movimiento 3.2 (Retiro)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"amount\": -125\n}"
+        },
+        "url": {
+          "raw": "{{accountServiceUrl}}/api/cuentas/{{accountId3}}/movimientos",
+          "host": [
+            "{{accountServiceUrl}}"
+          ],
+          "path": [
+            "api",
+            "cuentas",
+            "{{accountId3}}",
+            "movimientos"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Movimiento 3.3 (Depósito)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"amount\": 80\n}"
+        },
+        "url": {
+          "raw": "{{accountServiceUrl}}/api/cuentas/{{accountId3}}/movimientos",
+          "host": [
+            "{{accountServiceUrl}}"
+          ],
+          "path": [
+            "api",
+            "cuentas",
+            "{{accountId3}}",
+            "movimientos"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Crear cliente 4",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "if (pm.response.code === 201) {",
+              "  const body = pm.response.json();",
+              "  pm.collectionVariables.set('clientId4', body.id);",
+              "}"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Laura Torres\",\n  \"gender\": \"F\",\n  \"age\": 31,\n  \"ci\": \"0904050608\",\n  \"addres\": \"Av. Mariscal Sucre N12-45, Quito\",\n  \"phone\": \"0973456789\",\n  \"password\": \"LauraTest123!\",\n  \"state\": true\n}"
+        },
+        "url": {
+          "raw": "{{userServiceUrl}}/api/clientes",
+          "host": [
+            "{{userServiceUrl}}"
+          ],
+          "path": [
+            "api",
+            "clientes"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Crear cuenta 4",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "if (pm.response.code === 201) {",
+              "  const body = pm.response.json();",
+              "  pm.collectionVariables.set('accountId4', body.id);",
+              "}"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"clientId\": \"{{clientId4}}\",\n  \"accountType\": \"Corriente\",\n  \"accountNumber\": \"2000000004\",\n  \"initialBalance\": 3200.0,\n  \"state\": true\n}"
+        },
+        "url": {
+          "raw": "{{accountServiceUrl}}/api/cuentas",
+          "host": [
+            "{{accountServiceUrl}}",
+            ""
+          ],
+          "path": [
+            "api",
+            "cuentas"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Movimiento 4.1 (Depósito)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"amount\": 1000\n}"
+        },
+        "url": {
+          "raw": "{{accountServiceUrl}}/api/cuentas/{{accountId4}}/movimientos",
+          "host": [
+            "{{accountServiceUrl}}"
+          ],
+          "path": [
+            "api",
+            "cuentas",
+            "{{accountId4}}",
+            "movimientos"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Movimiento 4.2 (Retiro)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"amount\": -400\n}"
+        },
+        "url": {
+          "raw": "{{accountServiceUrl}}/api/cuentas/{{accountId4}}/movimientos",
+          "host": [
+            "{{accountServiceUrl}}"
+          ],
+          "path": [
+            "api",
+            "cuentas",
+            "{{accountId4}}",
+            "movimientos"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Movimiento 4.3 (Retiro)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"amount\": -150\n}"
+        },
+        "url": {
+          "raw": "{{accountServiceUrl}}/api/cuentas/{{accountId4}}/movimientos",
+          "host": [
+            "{{accountServiceUrl}}"
+          ],
+          "path": [
+            "api",
+            "cuentas",
+            "{{accountId4}}",
+            "movimientos"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Crear cliente 5",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "if (pm.response.code === 201) {",
+              "  const body = pm.response.json();",
+              "  pm.collectionVariables.set('clientId5', body.id);",
+              "}"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Andres Castillo\",\n  \"gender\": \"M\",\n  \"age\": 27,\n  \"ci\": \"0605060709\",\n  \"addres\": \"Av. Eloy Alfaro N33-10, Quito\",\n  \"phone\": \"0964567890\",\n  \"password\": \"AndresTest123!\",\n  \"state\": true\n}"
+        },
+        "url": {
+          "raw": "{{userServiceUrl}}/api/clientes",
+          "host": [
+            "{{userServiceUrl}}"
+          ],
+          "path": [
+            "api",
+            "clientes"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Crear cuenta 5",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "if (pm.response.code === 201) {",
+              "  const body = pm.response.json();",
+              "  pm.collectionVariables.set('accountId5', body.id);",
+              "}"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"clientId\": \"{{clientId5}}\",\n  \"accountType\": \"Ahorros\",\n  \"accountNumber\": \"2000000005\",\n  \"initialBalance\": 1500.0,\n  \"state\": true\n}"
+        },
+        "url": {
+          "raw": "{{accountServiceUrl}}/api/cuentas",
+          "host": [
+            "{{accountServiceUrl}}",
+            ""
+          ],
+          "path": [
+            "api",
+            "cuentas"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Movimiento 5.1 (Depósito)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"amount\": 200\n}"
+        },
+        "url": {
+          "raw": "{{accountServiceUrl}}/api/cuentas/{{accountId5}}/movimientos",
+          "host": [
+            "{{accountServiceUrl}}"
+          ],
+          "path": [
+            "api",
+            "cuentas",
+            "{{accountId5}}",
+            "movimientos"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Movimiento 5.2 (Retiro)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"amount\": -50\n}"
+        },
+        "url": {
+          "raw": "{{accountServiceUrl}}/api/cuentas/{{accountId5}}/movimientos",
+          "host": [
+            "{{accountServiceUrl}}"
+          ],
+          "path": [
+            "api",
+            "cuentas",
+            "{{accountId5}}",
+            "movimientos"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Movimiento 5.3 (Depósito)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"amount\": 125\n}"
+        },
+        "url": {
+          "raw": "{{accountServiceUrl}}/api/cuentas/{{accountId5}}/movimientos",
+          "host": [
+            "{{accountServiceUrl}}"
+          ],
+          "path": [
+            "api",
+            "cuentas",
+            "{{accountId5}}",
+            "movimientos"
+          ]
+        }
+      }
+    }
+  ]
+}

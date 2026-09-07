@@ -1,0 +1,275 @@
+{
+  "info": {
+    "name": "TestMicroServiciosDevsu - UserService + AccountService",
+    "description": "Colección generada a partir del código real de ClientsController, AcccountController, MovementController y ReportsController. Variables 'userServiceUrl' (5062) y 'accountServiceUrl' (5014) ya están cargadas con los puertos de tu launchSettings.json.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "userServiceUrl", "value": "http://localhost:5062", "type": "string" },
+    { "key": "accountServiceUrl", "value": "http://localhost:5014", "type": "string" },
+    { "key": "clientId", "value": "", "type": "string" },
+    { "key": "accountId", "value": "", "type": "string" }
+  ],
+  "item": [
+    {
+      "name": "UserService - Clientes (api/clientes)",
+      "item": [
+        {
+          "name": "Listar clientes",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{userServiceUrl}}/api/clientes?page=1&pageSize=20",
+              "host": ["{{userServiceUrl}}"],
+              "path": ["api", "clientes"],
+              "query": [
+                { "key": "page", "value": "1" },
+                { "key": "pageSize", "value": "20" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Obtener cliente por Id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{userServiceUrl}}/api/clientes/{{clientId}}",
+              "host": ["{{userServiceUrl}}"],
+              "path": ["api", "clientes", "{{clientId}}"]
+            }
+          }
+        },
+        {
+          "name": "Crear cliente",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "    const body = pm.response.json();",
+                  "    pm.collectionVariables.set('clientId', body.id);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Ana Ruiz\",\n  \"gender\": \"F\",\n  \"age\": 28,\n  \"ci\": \"0304050607\",\n  \"addres\": \"Av. 6 de Diciembre N30-15, Quito\",\n  \"phone\": \"0999555666\",\n  \"password\": \"ClaveSegura123!\",\n  \"state\": true\n}"
+            },
+            "url": {
+              "raw": "{{userServiceUrl}}/api/clientes",
+              "host": ["{{userServiceUrl}}"],
+              "path": ["api", "clientes"]
+            }
+          },
+          "description": "El test script guarda automáticamente el 'id' del cliente creado en la variable de colección {{clientId}}, para usarlo en las siguientes requests (crear cuenta, etc)."
+        },
+        {
+          "name": "Actualizar cliente",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Ana Ruiz Actualizado\",\n  \"gender\": \"F\",\n  \"addres\": \"Nueva direccion 123, Quito\",\n  \"phone\": \"0999000111\",\n  \"password\": \"ClaveSegura123!\",\n  \"state\": true\n}"
+            },
+            "url": {
+              "raw": "{{userServiceUrl}}/api/clientes/{{clientId}}",
+              "host": ["{{userServiceUrl}}"],
+              "path": ["api", "clientes", "{{clientId}}"]
+            }
+          }
+        },
+        {
+          "name": "Eliminar cliente",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{userServiceUrl}}/api/clientes/{{clientId}}",
+              "host": ["{{userServiceUrl}}"],
+              "path": ["api", "clientes", "{{clientId}}"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "AccountService - Cuentas (api/cuentas)",
+      "item": [
+        {
+          "name": "Listar cuentas",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{accountServiceUrl}}/api/cuentas",
+              "host": ["{{accountServiceUrl}}"],
+              "path": ["api", "cuentas"]
+            }
+          }
+        },
+        {
+          "name": "Obtener cuenta por Id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{accountServiceUrl}}/api/cuentas/{{accountId}}",
+              "host": ["{{accountServiceUrl}}"],
+              "path": ["api", "cuentas", "{{accountId}}"]
+            }
+          }
+        },
+        {
+          "name": "Crear cuenta",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "    const body = pm.response.json();",
+                  "    pm.collectionVariables.set('accountId', body.id);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"clientId\": \"{{clientId}}\",\n  \"accountType\": \"Ahorros\",\n  \"accountNumber\": \"1000000001\",\n  \"initialBalance\": 500.00,\n  \"state\": true\n}"
+            },
+            "url": {
+              "raw": "{{accountServiceUrl}}/api/cuentas",
+              "host": ["{{accountServiceUrl}}"],
+              "path": ["api", "cuentas"]
+            }
+          },
+          "description": "IMPORTANTE: a diferencia de un típico generador automático de números de cuenta, este endpoint espera que TÚ mandes 'accountNumber' en el body — revisa AccountCreateDto en tu código."
+        },
+        {
+          "name": "Actualizar cuenta",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"accountType\": \"Corriente\",\n  \"state\": true\n}"
+            },
+            "url": {
+              "raw": "{{accountServiceUrl}}/api/cuentas/{{accountId}}",
+              "host": ["{{accountServiceUrl}}"],
+              "path": ["api", "cuentas", "{{accountId}}"]
+            }
+          }
+        },
+        {
+          "name": "Eliminar cuenta",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{accountServiceUrl}}/api/cuentas/{{accountId}}",
+              "host": ["{{accountServiceUrl}}"],
+              "path": ["api", "cuentas", "{{accountId}}"]
+            }
+          }
+        },
+        {
+          "name": "Registrar movimiento (depósito o retiro)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"amount\": 100.00\n}"
+            },
+            "url": {
+              "raw": "{{accountServiceUrl}}/api/cuentas/{{accountId}}/movimientos",
+              "host": ["{{accountServiceUrl}}"],
+              "path": ["api", "cuentas", "{{accountId}}", "movimientos"]
+            }
+          },
+          "description": "OJO con este endpoint (AcccountController.Retirar): el signo de 'amount' decide el tipo de movimiento. Un valor POSITIVO (100.00) se registra como Depósito y SUMA al saldo. Un valor NEGATIVO (-100.00) se registra como Retiro y RESTA del saldo. No hay endpoints separados '/retiros' y '/depositos' — es el mismo endpoint para ambos casos."
+        }
+      ]
+    },
+    {
+      "name": "AccountService - Movimientos (api/movimientos)",
+      "item": [
+        {
+          "name": "Listar TODOS los movimientos",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{accountServiceUrl}}/api/movimientos",
+              "host": ["{{accountServiceUrl}}"],
+              "path": ["api", "movimientos"]
+            }
+          }
+        },
+        {
+          "name": "Movimientos de una cuenta específica",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{accountServiceUrl}}/api/movimientos/{{accountId}}",
+              "host": ["{{accountServiceUrl}}"],
+              "path": ["api", "movimientos", "{{accountId}}"]
+            }
+          },
+          "description": "Ojo: aunque la ruta es '/api/movimientos/{id}', ese {id} es en realidad el AccountId (GetByAccountIdAsync), no el Id del movimiento en sí."
+        }
+      ]
+    },
+    {
+      "name": "AccountService - Reportes (api/reportes)",
+      "item": [
+        {
+          "name": "Reporte de movimientos por cliente",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{accountServiceUrl}}/api/reportes/movimientos?clientId={{clientId}}&desde=2026-01-01&hasta=2026-12-31",
+              "host": ["{{accountServiceUrl}}"],
+              "path": ["api", "reportes", "movimientos"],
+              "query": [
+                { "key": "clientId", "value": "{{clientId}}" },
+                { "key": "desde", "value": "2026-01-01" },
+                { "key": "hasta", "value": "2026-12-31" }
+              ]
+            }
+          },
+          "description": "ADVERTENCIA: este endpoint tiene un bug conocido en el código actual (ReportsController.cs, línea 58): usa 'movimientos.First()' para sacar NameCliente/AccountNumber/etc. Si el filtro no devuelve NINGÚN movimiento (por ejemplo, un clientId sin movimientos, o sin pasar clientId), esto lanza 'System.InvalidOperationException: Sequence contains no elements' y responde 500 en vez de un reporte vacío. Prueba primero con un clientId que SÍ tenga movimientos registrados."
+        }
+      ]
+    }
+  ]
+}
