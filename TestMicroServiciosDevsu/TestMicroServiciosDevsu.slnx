@@ -1,4 +1,5 @@
 <Solution>
   <Project Path="AccountService/AccountService.csproj" />
   <Project Path="UserService/UserService.csproj" />
+  <Project Path="UserServiceTest/UserServiceTest.csproj" Id="359a3882-63d8-47e1-8165-2e7f1f7b1e3e" />
 </Solution>

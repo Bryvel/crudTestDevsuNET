@@ -36,22 +36,28 @@ namespace AccountService.Models;
     }
     // DTO de salida para reportes, con datos ya "aplanados"
     public record MovementReportItemDto(
-        int MovementId,
+        Guid MovementId,
         Guid AccountId,
         string AccountNumber,
-        int ClientId,
+        Guid ClientId,
         string ClientName,
+        string AccountType,
         string Type,
         decimal Amount,
         decimal BalanceAfter,
-        string? Description,
-        DateTime Date
+        DateTime Date,
+        bool state
     );
 
     public record MovementReportDto(
+        DateTime Date,
+        string NameCliente,
+        string AccountNumber,
+        string TypeAccount,
         int TotalMovimientos,
         decimal TotalDepositos,
         decimal TotalRetiros,
+        bool StateAccount,
         List<MovementReportItemDto> Movimientos
     );
 

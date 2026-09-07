@@ -26,7 +26,7 @@ namespace AccountService.Controllers
             return Ok(accounts.Select(AccountResponseDto.FromEntity));
         }
 
-        // GET clients/{id} Retorna un cliente mediante su id unico en la tabla 
+        // GET clients/{id} Retorna una Cuenta mediante su id unico en la tabla 
         [HttpGet("{id:Guid}")]
         public async Task<ActionResult<AccountResponseDto>> GetById(Guid id)
         {

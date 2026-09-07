@@ -7,6 +7,11 @@ namespace AccountService.Repositories
         // Historial de una cuenta puntual, con filtro opcional de fechas
         Task<List<Movement>> GetByAccountIdAsync(Guid accountId);
 
-    
+        Task<List<Movement>> GetFilteredAsync(
+             Guid? clientId,
+             DateTime? desde,
+             DateTime? hasta);
+
+
     }
 }
